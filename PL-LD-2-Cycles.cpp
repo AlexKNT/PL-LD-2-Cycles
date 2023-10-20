@@ -1,53 +1,67 @@
 ﻿#include <cstdio>
 
-// Prime number check
-bool isPrime(int n)
+// Define a function to determine if each digit of number1 is present in number2 or vice-versa
+bool haveSameDigits(int number1, int number2)
 {
-    if (n <= 1) return false; // A prime number cannot be less than or equal to 1
-    for (int i = 2; i * i <= n; i++)
-    {
-        if (n % i == 0) return false; // If the number is divisible without a remainder, it's not prime
-    }
-    return true;
-}
+    int digits1[10] = { 0 }; // Assuming numbers are non-negative
+    int digits2[10] = { 0 };
 
-// Divisible by its digits check
-bool isDivided(int n)
-{
-    int d = n;
-    while (d != 0)
+    // Extract digits of number1
+    int n1 = number1;
+    while (n1 != 0)
     {
-        int c = d % 10;
-        if (c == 0 || n % c != 0) return false;
-        d /= 10;
+        digits1[n1 % 10] = 1;
+        n1 /= 10;
     }
-    return true;
+
+    // Extract digits of number2 and check if each digit is in number1
+    int n2 = number2;
+    while (n2 != 0)
+    {
+        if (digits1[n2 % 10] == 0)
+        {
+            return false; // A digit in number2 is not present in number1
+        }
+        n2 /= 10;
+    }
+
+    // Extract digits of number2
+    n2 = number2;
+    while (n2 != 0)
+    {
+        digits2[n2 % 10] = 1;
+        n2 /= 10;
+    }
+
+    // Check if each digit in number1 is in number2
+    n1 = number1;
+    while (n1 != 0)
+    {
+        if (digits2[n1 % 10] == 0)
+        {
+            return false; // A digit in number1 is not present in number2
+        }
+        n1 /= 10;
+    }
+
+    return true; // All digits are present in both numbers
 }
 
 int main()
 {
-    int A, B;
-    printf("A = "); scanf("%i", &A);
-    printf("B = "); scanf("%i", &B);
+    int number1, number2;
+    printf("Number 1 = ");
+    scanf_s("%i", &number1);
+    printf("Number 2 = ");
+    scanf_s("%i", &number2);
 
-    printf("Prime numbers in the range %i to %i:\n", A, B);
-
-    for (int i = A; i <= B; i++)
+    if (haveSameDigits(number1, number2))
     {
-        if (isPrime(i))
-        {
-            printf("%i\n", i);
-        }
+        printf("Number 1 and Number 2 consist of the same digits.\n");
     }
-
-    printf("Numbers divisible by each of their own digits in the range %i to %i:\n", A, B);
-
-    for (int i = A; i <= B; i++)
+    else
     {
-        if (isDivided(i))
-        {
-            printf("%i\n", i);
-        }
+        printf("Number 1 and Number 2 do not consist of the same digits.\n");
     }
 
     return 0;
