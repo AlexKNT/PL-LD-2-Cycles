@@ -1,59 +1,49 @@
 ﻿#include <cstdio>
 
-// Define a function to determine if each digit of number1 is present in number2 or vice-versa
+// Function to check if number1 and number2 consist of the same digits
 bool haveSameDigits(int number1, int number2)
 {
-    int digits1[10] = { 0 }; // Assuming numbers are non-negative
-    int digits2[10] = { 0 };
+    // Initialize an array to count the occurrences of each digit (0-9)
+    int digitCount[10] = { 0 };
+    int digit;
 
-    // Extract digits of number1
-    int n1 = number1;
-    while (n1 != 0)
+    // Count the occurrences of each digit in number1
+    int tempNumber = number1;
+    while (tempNumber != 0)
     {
-        digits1[n1 % 10] = 1;
-        n1 /= 10;
+        // Extract the last digit of 'tempNumber' and store it in 'digit'
+        digit = tempNumber % 10;
+
+        // Increase the count of this digit in the 'digitCount' array
+        digitCount[digit]++;
+
+        // Remove the last digit from 'tempNumber'
+        tempNumber /= 10;
     }
 
-    // Extract digits of number2 and check if each digit is in number1
-    int n2 = number2;
-    while (n2 != 0)
+    // Check if each digit in number2 is present in number1
+    tempNumber = number2;
+    while (tempNumber != 0)
     {
-        if (digits1[n2 % 10] == 0)
+        // Extract the last digit of 'tempNumber' and store it in 'digit'
+        digit = tempNumber % 10;
+        if (digitCount[digit] == 0)
         {
             return false; // A digit in number2 is not present in number1
         }
-        n2 /= 10;
+        tempNumber /= 10;
     }
 
-    // Extract digits of number2
-    n2 = number2;
-    while (n2 != 0)
-    {
-        digits2[n2 % 10] = 1;
-        n2 /= 10;
-    }
-
-    // Check if each digit in number1 is in number2
-    n1 = number1;
-    while (n1 != 0)
-    {
-        if (digits2[n1 % 10] == 0)
-        {
-            return false; // A digit in number1 is not present in number2
-        }
-        n1 /= 10;
-    }
-
-    return true; // All digits are present in both numbers
+    // All digits in number2 are present in number1
+    return true;
 }
 
 int main()
 {
     int number1, number2;
-    printf("Number 1 = ");
-    scanf_s("%i", &number1);
-    printf("Number 2 = ");
-    scanf_s("%i", &number2);
+
+    printf("Enter Number 1: "); scanf_s("%i", &number1);
+    printf("Enter Number 2: "); scanf_s("%i", &number2);
 
     if (haveSameDigits(number1, number2))
     {
